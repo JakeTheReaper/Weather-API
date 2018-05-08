@@ -20,7 +20,6 @@
 				"Append time of day":[
 						"time of day",
 						"geolocation",
-						"HELO",
 						"append to file"
 				]
 		}
