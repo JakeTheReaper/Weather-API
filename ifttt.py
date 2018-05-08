@@ -6,8 +6,9 @@ import json
 import sys
 from subprocess import run, PIPE
 import time
+import re
 
-filename = "./ifttt.json"
+filename = "ifttt.json"
 
 try:
     fh = open(filename, 'r')
@@ -16,7 +17,7 @@ except IOError:
     print("Error: File not found")
     sys.exit(0)
 else:
-    print("File opened successfully")
+    print(filename + ": opened successfully")
     fh.close()
 
 def timeofday():
@@ -36,27 +37,33 @@ def echo():
 
 def appendTimeOfDay():
     try:
-        file = open("times.txt", "w")
+        fh = "times.txt"
+        file = open(fh, "w")
     except IOError:
         print("Error: File not found")
         sys.exit(0)
     else:
         for flow in datastore['flows']['Append time of day']:
             if flow == 'time of day':
-                print(echo() + flow)
+                pEcho = re.sub(r'\$\$', flow, echo())
+                print(pEcho)
                 file.write(str(timeofday())+'\n')
                 time.sleep(1)
             elif flow == 'geolocation':
-                print(echo() + flow)
+                pEcho = re.sub(r'\$\$', flow, echo())
+                print(pEcho)
                 file.write(str(geolocation()))
                 time.sleep(1)
             elif flow == 'append to file':
-                print(echo() + flow)
+                pEcho = re.sub(r'\$\$', flow, echo())
+                print(pEcho)
                 time.sleep(1)
             else:
-                print("Not a Valid Service")
+                print(flow + ": Is Not a Valid Service - SKIPPING...")
+                time.sleep(1)
+                pass
 
-        print("File written successfully")
+        print("Data written to " + fh + " successfully")
         file.close()
 
 def main():

@@ -13,13 +13,14 @@
 				},
 				"echo":{
 						"program":"echo",
-						"parameters":"Input is "
+						"parameters":"Input is $$"
 				}
 		},
 		"flows":{
 				"Append time of day":[
 						"time of day",
 						"geolocation",
+						"HELO",
 						"append to file"
 				]
 		}
