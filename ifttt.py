@@ -40,7 +40,7 @@ class Flows():
     def appendTimeOfDay():
         try:
             fh = "times.txt"
-            file = open(fh, "w")
+            file = open(fh, "a")
         except IOError:
             print("Error: File not found")
             sys.exit(0)
@@ -69,7 +69,12 @@ class Flows():
             file.close()
 
 def main():
-    Flows.appendTimeOfDay()
+    count = 0
+    while (count < 2):
+        time.sleep(60 - time.time() %60)
+        print(Services.timeofday())
+        Flows.appendTimeOfDay()
+        count += 1
     sys.exit(0)
 
 main()
