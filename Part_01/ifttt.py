@@ -36,6 +36,33 @@ class Services():
         echo = datastore['services']['echo']['parameters']
         return echo
 
+    def morning():
+        now = datetime.datetime.now()
+        datastore['services']['morning']['parameters'] = now.strftime('%H:%M:%S')
+        time = datastore['services']['morning']['parameters']
+        if(time >= "00:00:00" and time < "11:59:59"):
+            return True
+        else:
+            return False         
+    
+    def afternoon():
+        now = datetime.datetime.now()
+        datastore['services']['morning']['parameters'] = now.strftime('%H:%M:%S')
+        time = datastore['services']['morning']['parameters']
+        if(time >= "12:00:00" and time < "17:59:59"):
+            return True
+        else:
+            return False
+
+    def evening():
+        now = datetime.datetime.now()
+        datastore['services']['morning']['parameters'] = now.strftime('%H:%M:%S')
+        time = datastore['services']['morning']['parameters']
+        if(time >= "18:00:00" and time < "23:59:59"):
+            return True
+        else:
+            return False
+
 class Flows():
     def appendTimeOfDay():
         try:
@@ -43,7 +70,7 @@ class Flows():
             file = open(fh, "a")
         except IOError:
             print("Error: File not found")
-            sys.exit(0)
+            sys.exit(1)
         else:
             for flow in datastore['flows']['Append time of day']:
                 if flow == 'time of day':
@@ -78,7 +105,18 @@ def main():
     sys.exit(0)
 
 try:
-    main()
+    #main()
+    if(Services.morning()):
+        print("Time of day is " + datastore['services']['morning']['program'])
+        main()
+    elif(Services.afternoon()):
+        print("Time of day is " + datastore['services']['afternoon']['program'])
+        main()
+    elif(Services.evening()):
+        print("Time of day is " + datastore['services']['evening']['program'])
+        main()
+    else:
+        sys.exit(1)
 except:
     sys.exit(1)
 
