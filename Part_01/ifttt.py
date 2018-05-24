@@ -97,7 +97,7 @@ class Flows():
 
 def main():
     count = 0
-    while (count < 5):
+    while (count < 2):
         time.sleep(60 - time.time() %60)
         print(Services.timeofday())
         Flows.appendTimeOfDay()
@@ -105,7 +105,6 @@ def main():
     sys.exit(0)
 
 try:
-    #main()
     if(Services.morning()):
         print("Time of day is " + datastore['services']['morning']['program'])
         main()
