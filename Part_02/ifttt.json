@@ -1,0 +1,26 @@
+{
+		"services":{
+				"time of day":{
+						"program":"date",
+						"parameters":"'+%d/%m/%Y %H:%M:%S'"
+				},
+				"append to file":{
+						"program":"./append.py",
+						"parameters":"times.txt"
+				},
+				"geolocation":{
+						"program":"./getMetadata.py"
+				},
+				"echo":{
+						"program":"echo",
+						"parameters":"Input is $$"
+				}
+		},
+		"flows":{
+				"Append time of day":[
+						"time of day",
+						"geolocation",
+						"append to file"
+				]
+		}
+}

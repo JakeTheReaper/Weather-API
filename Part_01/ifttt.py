@@ -70,11 +70,16 @@ class Flows():
 
 def main():
     count = 0
-    while (count < 2):
+    while (count < 5):
         time.sleep(60 - time.time() %60)
         print(Services.timeofday())
         Flows.appendTimeOfDay()
         count += 1
     sys.exit(0)
 
-main()
+try:
+    main()
+except:
+    sys.exit(1)
+
+sys.exit(0)
