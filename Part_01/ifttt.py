@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import datetime
+from datetime import timedelta
 import requests
 import json
 import sys
@@ -63,6 +64,40 @@ class Services():
         else:
             return False
 
+    def sunrise():
+        command = datastore['services']['sunrise']['program']
+        run(command, stdout=PIPE, input='', encoding='utf-8')
+        
+        filename = "sunriseSunset.json"
+        try:
+            fh = open(filename, 'r')
+            results = json.load(fh)
+        except IOError:
+            print("Error: File not found")
+            sys.exit(1)
+        else:
+            fh.close()
+
+        sunrise = results['results']['sunrise']
+        return sunrise
+        
+    def sunset():
+        command = datastore['services']['sunset']['program']
+        run(command, stdout=PIPE, input='', encoding='utf-8')
+        
+        filename = "sunriseSunset.json"
+        try:
+            fh = open(filename, 'r')
+            results = json.load(fh)
+        except IOError:
+            print("Error: File not found")
+            sys.exit(1)
+        else:
+            fh.close()
+
+        sunset = results['results']['sunset']
+        return sunset
+
 class Flows():
     def appendTimeOfDay():
         try:
@@ -73,7 +108,17 @@ class Flows():
             sys.exit(1)
         else:
             for flow in datastore['flows']['Append time of day']:
-                if flow == 'time of day':
+                if flow == 'sunrise':
+                    pEcho = re.sub(r'\$\$', flow, Services.echo())
+                    print(pEcho)
+                    file.write("Sunrise: " + str(Services.sunrise()) + ' UTC\n')
+                    time.sleep(1)
+                elif flow == 'sunset':
+                    pEcho = re.sub(r'\$\$', flow, Services.echo())
+                    print(pEcho)
+                    file.write("Sunset: " + str(Services.sunset()) + ' UTC\n')
+                    time.sleep(1)
+                elif flow == 'time of day':
                     pEcho = re.sub(r'\$\$', flow, Services.echo())
                     print(pEcho)
                     file.write(str(Services.timeofday())+'\n')
@@ -97,9 +142,11 @@ class Flows():
 
 def main():
     count = 0
-    while (count < 2):
-        time.sleep(60 - time.time() %60)
+    while (count < 1):
+        time.sleep(60 - time.time() % 60)
         print(Services.timeofday())
+        print("Sunrise: " + Services.sunrise() + " UTC")
+        print("Sunset: " + Services.sunset() + " UTC")
         Flows.appendTimeOfDay()
         count += 1
     sys.exit(0)
@@ -118,5 +165,7 @@ try:
         sys.exit(1)
 except:
     sys.exit(1)
+
+
 
 sys.exit(0)

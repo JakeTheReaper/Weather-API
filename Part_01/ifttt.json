@@ -1,39 +1,46 @@
 {
-		"services":{
-				"time of day":{
-						"program":"date",
-						"parameters":"'+%d/%m/%Y %H:%M:%S'"
-				},
-				"append to file":{
-						"program":"./append.py",
-						"parameters":"times.txt"
-				},
-				"geolocation":{
-						"program":"./getMetadata.py"
-				},
-				"echo":{
-						"program":"echo",
-						"parameters":"Input is $$"
-				},
-				"morning":{
-						"program":"morning",
-						"parameters":"'+%H:%M:%S'"
-				},
-				"afternoon":{
-						"program":"afternoon",
-						"parameters":"'+%H:%M:%S'"
-				},
-				"evening":{
-						"program":"evening",
-						"parameters":"'+%H:%M:%S'"												
-				}
-
+	"services":{
+		"time of day":{
+			"program":"date",
+			"parameters":"'+%d/%m/%Y %H:%M:%S'"
 		},
-		"flows":{
-				"Append time of day":[
-						"time of day",
-						"geolocation",
-						"append to file"
-				]
+		"append to file":{
+			"program":"./append.py",
+			"parameters":"times.txt"
+		},
+		"geolocation":{
+			"program":"./getMetadata.py"
+		},
+		"echo":{
+			"program":"echo",
+			"parameters":"Input is $$"
+		},
+		"morning":{
+			"program":"morning",
+			"parameters":"'+%H:%M:%S'"
+		},
+		"afternoon":{
+			"program":"afternoon",
+			"parameters":"'+%H:%M:%S'"
+		},
+		"evening":{
+			"program":"evening",
+			"parameters":"'+%H:%M:%S'"												
+		},
+		"sunrise":{
+			"program":"./sunriseSunset.py"
+		},
+		"sunset":{
+			"program":"./sunriseSunset.py"
 		}
+	},
+	"flows":{
+		"Append time of day":[
+			"sunrise",
+			"sunset",
+			"time of day",
+			"geolocation",
+			"append to file"
+		]
+	}
 }
