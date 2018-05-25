@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import datetime
-from datetime import timedelta
 import requests
 import json
 import sys
@@ -165,7 +164,5 @@ try:
         sys.exit(1)
 except:
     sys.exit(1)
-
-
 
 sys.exit(0)
