@@ -1,0 +1,9 @@
+{
+    "name":"Time of day",
+    "program":"/timeofday.py",
+    "description":"Get the time of current day",
+    "parameters":"'+%d/%m/%Y %H:%M:%S'",
+    "output": {
+        "type":"time"
+    }
+}

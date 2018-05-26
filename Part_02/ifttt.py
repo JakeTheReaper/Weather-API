@@ -10,7 +10,7 @@ import sys
 from subprocess import run, PIPE
 import time
 import re
-
+'''
 #Assign default json file to be read in.
 filename = "ifttt.json"
 
@@ -26,17 +26,79 @@ except IOError:
 else:
     #print(filename + ": opened successfully")
     fh.close()
-
+'''
 #Create Services class.
 class Services():
     
     def timeofday():
-        #Get the time of day, format and return the output. 
-        now = datetime.datetime.now()
-        datastore['services']['time of day']['parameters'] = now.strftime('%d/%m/%Y %H:%M:%S')
-        date = datastore['services']['time of day']['parameters']
-        return date
+        #Assign default json file to be read in.
+        filename = "./Time of day/config.json"
 
+        #Try open assigned default json file and save contents to a variable.
+        #If file not found, print error and exit process.
+        #Otherwise close file.
+        try:
+            fh = open(filename, 'r')
+            datastore = json.load(fh)
+            print(datastore)
+        except IOError:
+            print("Error: File not found")
+            sys.exit(1)
+        else:
+            if('name' in datastore and 'program' in datastore and 'description' in datastore):
+                #print(filename + ": opened successfully")
+                fh.close()
+            else:
+                print("Error found in JSON config file")
+                sys.exit(1)
+        #Try open program to get location metadata
+        #If file can't be opened, print error and exit process.
+        #Otherwise return output
+        try:
+            command = "./Time of day" + datastore['program']
+            p = run(command, stdout=PIPE, input='', encoding='utf-8')
+        except IOError:
+            print("Error: Cannot open file")
+            sys.exit(1)
+        else:
+            print(p.stdout)
+    def geolocation():
+        #Assign default json file to be read in.
+        filename = "./Geolocation/config.json"
+
+        #Try open assigned default json file and save contents to a variable.
+        #If file not found, print error and exit process.
+        #Otherwise close file.
+        try:
+            fh = open(filename, 'r')
+            datastore = json.load(fh)
+            print(datastore)
+        except IOError:
+            print("Error: File not found")
+            sys.exit(1)
+        else:
+            if('name' in datastore and 'program' in datastore and 'description' in datastore):
+                #print(filename + ": opened successfully")
+                fh.close()
+            else:
+                print("Error found in JSON config file")
+                sys.exit(1)
+        #Try open program to get location metadata
+        #If file can't be opened, print error and exit process.
+        #Otherwise return output
+        try:
+            command = "./Geolocation" + datastore['program']
+            p = run(command, stdout=PIPE, input='', encoding='utf-8')
+        except IOError:
+            print("Error: Cannot open file")
+            sys.exit(1)
+        else:
+            print("OK")
+            return p.stdout
+Services.timeofday()
+Services.geolocation()
+sys.exit(0)
+'''
     def geolocation():
         #Try open program to get location metadata
         #If file can't be opened, print error and exit process.
@@ -212,3 +274,4 @@ except:
     sys.exit(1)
 
 sys.exit(0)
+'''

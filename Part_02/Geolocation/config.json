@@ -1,0 +1,5 @@
+{
+    "name":"Geolocation",
+    "program":"/getMetadata.py",
+    "description":"Get data based on specified location"
+}
