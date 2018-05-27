@@ -1,0 +1,16 @@
+{
+    "name":"Evening",
+    "program":"/evening.py",
+    "description":"Returns true when the input time is between 6pm and 12am",
+    "configuration":{
+        "starttime":"18:00:00",
+        "endtime":"24:00:00"
+    },
+    "parameters":"%H:%M:%S",
+    "input":{
+        "type":"time"
+    },
+    "output":{
+        "type":"boolean"
+    }
+}

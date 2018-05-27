@@ -58,7 +58,7 @@ class Services():
         now = datetime.datetime.now()
         datastore['services']['morning']['parameters'] = now.strftime('%H:%M:%S')
         time = datastore['services']['morning']['parameters']
-        if(time >= "00:00:00" and time < "11:59:59"):
+        if(time >= "00:00:00" and time < "12:00:00"):
             return True
         else:
             return False         
@@ -69,7 +69,7 @@ class Services():
         now = datetime.datetime.now()
         datastore['services']['morning']['parameters'] = now.strftime('%H:%M:%S')
         time = datastore['services']['morning']['parameters']
-        if(time >= "12:00:00" and time < "17:59:59"):
+        if(time >= "12:00:00" and time < "18:00:00"):
             return True
         else:
             return False
@@ -80,7 +80,7 @@ class Services():
         now = datetime.datetime.now()
         datastore['services']['morning']['parameters'] = now.strftime('%H:%M:%S')
         time = datastore['services']['morning']['parameters']
-        if(time >= "18:00:00" and time < "23:59:59"):
+        if(time >= "18:00:00" and time < "00:00:00"):
             return True
         else:
             return False

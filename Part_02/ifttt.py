@@ -8,105 +8,68 @@ import requests
 import json
 import sys
 from subprocess import run, PIPE
+from append import fileSave
 import time
 import re
-'''
-#Assign default json file to be read in.
-filename = "ifttt.json"
 
-#Try open assigned default json file and save contents to a variable.
-#If file not found, print error and exit process.
-#Otherwise close file.
-try:
+#Function to open JSON File.
+def openFile(filename):
     fh = open(filename, 'r')
     datastore = json.load(fh)
-except IOError:
-    print("Error: File not found")
-    sys.exit(1)
-else:
-    #print(filename + ": opened successfully")
     fh.close()
-'''
+    return datastore
+  
+try:
+    datastore = openFile(sys.argv[1])
+except:
+    datastore = openFile("ifttt.json")
+
 #Create Services class.
 class Services():
     
-    def timeofday():
-        #Assign default json file to be read in.
-        filename = "./Time of day/config.json"
-
-        #Try open assigned default json file and save contents to a variable.
-        #If file not found, print error and exit process.
-        #Otherwise close file.
-        try:
-            fh = open(filename, 'r')
-            datastore = json.load(fh)
-            print(datastore)
-        except IOError:
-            print("Error: File not found")
-            sys.exit(1)
+    def timeofday(filename):
+        fh = open(filename, 'r')
+        datastore = json.load(fh)
+        if('name' in datastore and 'program' in datastore and 'description' in datastore):
+            fh.close()
+            return datastore
         else:
-            if('name' in datastore and 'program' in datastore and 'description' in datastore):
-                #print(filename + ": opened successfully")
-                fh.close()
-            else:
-                print("Error found in JSON config file")
-                sys.exit(1)
+            print("Error found in JSON config file")
+            sys.exit(1)
+    
+    def getTimeofday():
         #Try open program to get location metadata
         #If file can't be opened, print error and exit process.
         #Otherwise return output
         try:
+            datastore = Services.timeofday("./Time of day/config.json")
             command = "./Time of day" + datastore['program']
             p = run(command, stdout=PIPE, input='', encoding='utf-8')
-        except IOError:
+        except:
             print("Error: Cannot open file")
             sys.exit(1)
         else:
-            print(p.stdout)
-    def geolocation():
-        #Assign default json file to be read in.
-        filename = "./Geolocation/config.json"
+            return p.stdout
 
-        #Try open assigned default json file and save contents to a variable.
-        #If file not found, print error and exit process.
-        #Otherwise close file.
-        try:
-            fh = open(filename, 'r')
-            datastore = json.load(fh)
-            print(datastore)
-        except IOError:
-            print("Error: File not found")
-            sys.exit(1)
+    def geolocation(filename):
+        fh = open(filename, 'r')
+        datastore = json.load(fh)
+        if('name' in datastore and 'program' in datastore and 'description' in datastore):
+            fh.close()
+            return datastore
         else:
-            if('name' in datastore and 'program' in datastore and 'description' in datastore):
-                #print(filename + ": opened successfully")
-                fh.close()
-            else:
-                print("Error found in JSON config file")
-                sys.exit(1)
+            print("Error found in JSON config file")
+            sys.exit(1)
+        
+    def getGeolocation():
         #Try open program to get location metadata
         #If file can't be opened, print error and exit process.
         #Otherwise return output
         try:
+            datastore = Services.geolocation("./Geolocation/config.json")
             command = "./Geolocation" + datastore['program']
             p = run(command, stdout=PIPE, input='', encoding='utf-8')
-        except IOError:
-            print("Error: Cannot open file")
-            sys.exit(1)
-        else:
-            print("OK")
-            return p.stdout
-Services.timeofday()
-Services.geolocation()
-sys.exit(0)
-'''
-    def geolocation():
-        #Try open program to get location metadata
-        #If file can't be opened, print error and exit process.
-        #Otherwise return output
-        try:
-            command = datastore['services']['geolocation']['program']
-            p = run(command, stdout=PIPE, input='', encoding='utf-8')
-        except IOError:
+        except:
             print("Error: Cannot open file")
             sys.exit(1)
         else:
@@ -117,161 +80,166 @@ sys.exit(0)
         echo = datastore['services']['echo']['parameters']
         return echo
 
-    def morning():
-        #Check to see if service is run in the morning.
-        #Get current time and return True or False if it is within the specified parameters.
-        now = datetime.datetime.now()
-        datastore['services']['morning']['parameters'] = now.strftime('%H:%M:%S')
-        time = datastore['services']['morning']['parameters']
-        if(time >= "00:00:00" and time < "11:59:59"):
-            return True
+    def morning(filename):
+        #Function to open JSON File.
+        fh = open(filename, 'r')
+        datastore = json.load(fh)
+        if('name' in datastore and 'program' in datastore and 'description' in datastore):
+            fh.close()
+            return datastore
         else:
-            return False         
+            print("Error found in JSON config file")
+            sys.exit(1)
+        
+    def getMorning():
+        #Try open program to get location metadata
+        #If file can't be opened, print error and exit process.
+        #Otherwise return output
+        try:
+            datastore = Services.morning("./Morning/config.json")
+            command = "./Morning" + datastore['program']
+            p = run(command, stdout=PIPE, input='', encoding='utf-8')
+        except:
+            print("Error: Cannot open file")
+            sys.exit(1)
+        else:
+            return p.stdout
     
-    def afternoon():
-        #Check to see if service is run in the afternoon.
-        #Get current time and return True or False if it is within the specified parameters.
-        now = datetime.datetime.now()
-        datastore['services']['morning']['parameters'] = now.strftime('%H:%M:%S')
-        time = datastore['services']['morning']['parameters']
-        if(time >= "12:00:00" and time < "17:59:59"):
-            return True
+    def afternoon(filename):
+        #Function to open JSON File.
+        fh = open(filename, 'r')
+        datastore = json.load(fh)
+        if('name' in datastore and 'program' in datastore and 'description' in datastore):
+            fh.close()
+            return datastore
         else:
-            return False
-
-    def evening():
-        #Check to see if service is run in the evening.
-        #Get current time and return True or False if it is within the specified parameters.
-        now = datetime.datetime.now()
-        datastore['services']['morning']['parameters'] = now.strftime('%H:%M:%S')
-        time = datastore['services']['morning']['parameters']
-        if(time >= "18:00:00" and time < "23:59:59"):
-            return True
+            print("Error found in JSON config file")
+            sys.exit(1)
+        
+    def getAfternoon():
+        #Try open program to get location metadata
+        #If file can't be opened, print error and exit process.
+        #Otherwise return output
+        try:
+            datastore = Services.morning("./Afternoon/config.json")
+            command = "./Afternoon" + datastore['program']
+            p = run(command, stdout=PIPE, input='', encoding='utf-8')
+        except:
+            print("Error: Cannot open file")
+            sys.exit(1)
         else:
-            return False
+            return p.stdout
 
-    def sunrise():
+    def evening(filename):
+        #Function to open JSON File.
+        fh = open(filename, 'r')
+        datastore = json.load(fh)
+        if('name' in datastore and 'program' in datastore and 'description' in datastore):
+            fh.close()
+            return datastore
+        else:
+            print("Error found in JSON config file")
+            sys.exit(1)
+        
+    def getEvening():
+        #Try open program to get location metadata
+        #If file can't be opened, print error and exit process.
+        #Otherwise return output
+        try:
+            datastore = Services.morning("./Evening/config.json")
+            command = "./Evening" + datastore['program']
+            p = run(command, stdout=PIPE, input='', encoding='utf-8')
+        except:
+            print("Error: Cannot open file")
+            sys.exit(1)
+        else:
+            return p.stdout
+
+    def sunriseSunset():
         #Try open program to get sunrise metadata
         #If file can't be opened, print error and exit process.
         try:
-            command = datastore['services']['sunrise']['program']
+            command = "./sunriseSunset.py"
             run(command, stdout=PIPE, input='', encoding='utf-8')
-        except IOError:
+        except:
             print("Error: Cannot open file")
             sys.exit(1)
 
-        #Try open json file with sunrise results.
-        #If file can't be opened, print error and exit process.
-        #Otherwise close file.
-        filename = "sunriseSunset.json"
-        try:
-            fh = open(filename, 'r')
-            results = json.load(fh)
-        except IOError:
-            print("Error: File not found")
-            sys.exit(1)
-        else:
-            fh.close()
+    def openSunriseSunset(filename):
+        fh = open(filename, 'r')
+        results = json.load(fh)
+        fh.close()
+        return results
 
+    def sunrise():
+        try:
+            results = Services.openSunriseSunset("sunriseSunset.json")
+        except:
+            sys.exit(1)
         #Assign sunrise result and return output.
-        sunrise = results['results']['sunrise']
+        sunrise = results['results']['sunrise']   
         return sunrise
         
     def sunset():
-        #Try open program to get sunset metadata
-        #If file can't be opened, print error and exit process.
         try:
-            command = datastore['services']['sunset']['program']
-            run(command, stdout=PIPE, input='', encoding='utf-8')
-        except IOError:
-            print("Error: Cannot open file")
+            results = Services.openSunriseSunset("sunriseSunset.json")
+        except:
             sys.exit(1)
-
-        #Try open json file with sunset results.
-        #If file can't be opened, print error and exit process.
-        #Otherwise close file.
-        filename = "sunriseSunset.json"
-        try:
-            fh = open(filename, 'r')
-            results = json.load(fh)
-        except IOError:
-            print("Error: File not found")
-            sys.exit(1)
-        else:
-            fh.close()
-
         #Assign sunset result and return output.
-        sunset = results['results']['sunset']
+        sunset = results['results']['sunset']   
         return sunset
-
 #Create Flows class.
 class Flows():
     def appendTimeOfDay():
-        try:
-            fh = "times.txt"
-            file = open(fh, "a")
-        except IOError:
-            print("Error: File not found")
-            sys.exit(1)
-        else:
-            for flow in datastore['flows']['Append time of day']:
-                if flow == 'sunrise':
-                    pEcho = re.sub(r'\$\$', flow, Services.echo())
-                    print(pEcho)
-                    file.write("Sunrise: " + str(Services.sunrise()) + ' UTC\n')
-                    time.sleep(1)
-                elif flow == 'sunset':
-                    pEcho = re.sub(r'\$\$', flow, Services.echo())
-                    print(pEcho)
-                    file.write("Sunset: " + str(Services.sunset()) + ' UTC\n')
-                    time.sleep(1)
-                elif flow == 'time of day':
-                    pEcho = re.sub(r'\$\$', flow, Services.echo())
-                    print(pEcho)
-                    file.write(str(Services.timeofday())+'\n')
-                    time.sleep(1)
-                elif flow == 'geolocation':
-                    pEcho = re.sub(r'\$\$', flow, Services.echo())
-                    print(pEcho)
-                    file.write(str(Services.geolocation()))
-                    time.sleep(1)
-                elif flow == 'append to file':
-                    pEcho = re.sub(r'\$\$', flow, Services.echo())
-                    print(pEcho)
-                    time.sleep(1)
-                else:
-                    print(flow + ": Is Not a Valid Service - SKIPPING...")
-                    time.sleep(1)
-                    pass
+        #Check which flow is running.
+        #Substitute $$ Special symbols with current flow
+        #Write to file 
+        for flow in datastore['flows']['Append time of day']:
+            if flow == 'sunrise':
+                pEcho = re.sub(r'\$\$', flow, Services.echo())
+                print(pEcho)
+                fileSave("times.txt", "Sunrise: " + str(Services.sunrise()) + ' UTC\n')
+                time.sleep(1)
+            elif flow == 'sunset':
+                pEcho = re.sub(r'\$\$', flow, Services.echo())
+                print(pEcho)
+                fileSave("times.txt", "Sunset: " + str(Services.sunset()) + ' UTC\n')
+                time.sleep(1) 
+            elif flow == 'time of day':
+                pEcho = re.sub(r'\$\$', flow, Services.echo())
+                print(pEcho)
+                fileSave("times.txt", str(Services.getTimeofday())+'\n')
+                time.sleep(1)
+            elif flow == 'geolocation':
+                pEcho = re.sub(r'\$\$', flow, Services.echo())
+                print(pEcho)
+                fileSave("times.txt", str(Services.getGeolocation()))
+                time.sleep(1)
+            elif flow == 'append to file':
+                pEcho = re.sub(r'\$\$', flow, Services.echo())
+                print(pEcho)
+                time.sleep(1)
+            else:
+                print(flow + ": Is Not a Valid Service - SKIPPING...")
+                time.sleep(1)
+                pass
 
-            print("Data written successfully")
-            file.close()
+        print("Data written successfully")
 
 def main():
+    Services.sunriseSunset()
     count = 0
+    #Run service every minute.
+    #For 2 mins in this example
     while (count < 1):
         time.sleep(60 - time.time() % 60)
-        print(Services.timeofday())
+        print(Services.getTimeofday())
         print("Sunrise: " + Services.sunrise() + " UTC")
         print("Sunset: " + Services.sunset() + " UTC")
         Flows.appendTimeOfDay()
         count += 1
     sys.exit(0)
-
-try:
-    if(Services.morning()):
-        print("Time of day is " + datastore['services']['morning']['program'])
-        main()
-    elif(Services.afternoon()):
-        print("Time of day is " + datastore['services']['afternoon']['program'])
-        main()
-    elif(Services.evening()):
-        print("Time of day is " + datastore['services']['evening']['program'])
-        main()
-    else:
-        sys.exit(1)
-except:
-    sys.exit(1)
+main()
 
 sys.exit(0)
-'''
+
