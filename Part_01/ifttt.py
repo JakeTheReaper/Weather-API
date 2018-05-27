@@ -161,8 +161,9 @@ def main():
     Services.sunriseSunset()
     count = 0
     #Run service every minute.
-    while (count < 1):
-        #time.sleep(60 - time.time() % 60)
+    #For 2 mins in this example
+    while (count < 2):
+        time.sleep(60 - time.time() % 60)
         print(Services.timeofday())
         print("Sunrise: " + Services.sunrise() + " UTC")
         print("Sunset: " + Services.sunset() + " UTC")
