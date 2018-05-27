@@ -13,7 +13,7 @@ def main():
     try:
         fh = "sunriseSunset.json"
         file = open(fh, "w")
-    except IOError:
+    except:
         print("Error: File not found")
         sys.exit(1)
     else:
