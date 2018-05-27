@@ -10,7 +10,7 @@ import sys
 from subprocess import run, PIPE
 import time
 import re
-
+'''
 #Assign default json file to be read in.
 filename = "ifttt.json"
 
@@ -26,6 +26,17 @@ except IOError:
 else:
     #print(filename + ": opened successfully")
     fh.close()
+'''
+def openFile(filename):
+    fh = open(filename, 'r')
+    datastore = json.load(fh)
+    fh.close()
+    return datastore
+  
+try:
+    datastore = openFile(sys.argv[1])
+except:
+    datastore = openFile("ifttt.json")
 
 #Create Services class.
 class Services():
@@ -210,5 +221,7 @@ try:
         sys.exit(1)
 except:
     sys.exit(1)
+
+
 
 sys.exit(0)
