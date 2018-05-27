@@ -1,31 +1,8 @@
 {
 	"services":{
-		"time of day":{
-			"program":"date",
-			"parameters":"'+%d/%m/%Y %H:%M:%S'"
-		},
-		"append to file":{
-			"program":"./append.py",
-			"parameters":"times.txt"
-		},
-		"geolocation":{
-			"program":"./getMetadata.py"
-		},
 		"echo":{
 			"program":"echo",
 			"parameters":"Input is $$"
-		},
-		"morning":{
-			"program":"morning",
-			"parameters":"'+%H:%M:%S'"
-		},
-		"afternoon":{
-			"program":"afternoon",
-			"parameters":"'+%H:%M:%S'"
-		},
-		"evening":{
-			"program":"evening",
-			"parameters":"'+%H:%M:%S'"												
 		},
 		"sunrise":{
 			"program":"./sunriseSunset.py"

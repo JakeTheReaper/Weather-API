@@ -20,7 +20,7 @@ except:
     sys.exit(1)
 
 def evening(): 
-    #Check to see if service is run in the morning.
+    #Check to see if service is run in the evening.
     #Get current time and return True or False if it is within the specified parameters.
     now = datetime.datetime.now()
     time = now.strftime('%H:%M:%S')

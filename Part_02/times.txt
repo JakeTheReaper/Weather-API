@@ -1,29 +1,29 @@
 Sunrise: 9:22:08 PM UTC
 Sunset: 7:10:59 AM UTC
-27/05/2018 22:46:24
+27/05/2018 22:52:02
 
 {
   "latitude": -37.71528,
   "longitude": 145.15056,
   "timezone": "Australia/Melbourne",
   "currently": {
-    "time": 1527425187,
+    "time": 1527425524,
     "summary": "Overcast",
     "icon": "cloudy",
     "precipIntensity": 0,
     "precipProbability": 0,
-    "temperature": 58.24,
-    "apparentTemperature": 58.24,
-    "dewPoint": 48.7,
+    "temperature": 58.15,
+    "apparentTemperature": 58.15,
+    "dewPoint": 48.65,
     "humidity": 0.71,
-    "pressure": 1022.67,
-    "windSpeed": 8.33,
-    "windGust": 27.9,
+    "pressure": 1022.65,
+    "windSpeed": 8.34,
+    "windGust": 27.93,
     "windBearing": 15,
     "cloudCover": 1,
     "uvIndex": 0,
     "visibility": 6.22,
-    "ozone": 291.93
+    "ozone": 291.92
   },
   "hourly": {
     "summary": "Mostly cloudy throughout the day.",
